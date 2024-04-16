@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Creater Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Welcome to Creater Page</h1>
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+    <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <label for="tempo">Select tempo:</label>
+        <select id="tempo" name="tempo">
+            {% for i in range(90, 211, 3) %}
+            <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+        </select>
+        <label for="threshold">Threshold:</label>
+        <input type="number" id="threshold" name="threshold" min="0" max="1" step="0.01" value="0">
+        <input type="submit" value="Upload">
+    </form>
+    {% if file_name %}
+        <h2>video tempo file:</h2>
+        <p>file name: {{ request.files['file'].filename }}</p>
+        <p>download link: <a href="{{ url_for('download', filename=file_name.split('.')[0] + '.npz') }}">download</a></p>
+    {% endif %}
+</body>
+</html>

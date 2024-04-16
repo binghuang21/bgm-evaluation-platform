@@ -1,0 +1,237 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>User Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Welcome to User Page</h1>
+    <h2>请选择你的角色</h2>
+    <div>
+        <input type="checkbox" name="choice" value="非专业人士" onclick="selectChoice('1')">非专业人士：无乐器或配乐学习背景
+        <input type="checkbox" name="choice" value="业余爱好者" onclick="selectChoice('2')">业余爱好者：有部分乐器或音乐学习背景
+        <input type="checkbox" name="choice" value="专业人士" onclick="selectChoice('3')">专业人士：有系统性专业的乐器或配乐学习背景
+    </div>
+    <h2>请对下面视频的背景音乐打分</h2>
+    <div>
+        {% for video in videos %}
+        <video width="320" height="240" controls controlsList="nodownload">
+            <source src="{{ url_for('video', filename=video) }}" type="video/mp4">
+        </video>
+        {% endfor %}
+    </div>
+    <div>
+        <input type="checkbox" name="choice" value="1" onclick="selectChoice('1')">1
+        <input type="checkbox" name="choice" value="2" onclick="selectChoice('2')">2
+        <input type="checkbox" name="choice" value="3" onclick="selectChoice('3')">3
+        <input type="checkbox" name="choice" value="4" onclick="selectChoice('4')">4
+        <input type="checkbox" name="choice" value="5" onclick="selectChoice('5')">5
+    </div>
+    <div>
+        {% for video in cmt_videos %}
+        <video width="320" height="240" controls controlsList="nodownload">
+            <source src="{{ url_for('cmt_video', filename=video) }}" type="video/mp4">
+        </video>
+        {% endfor %}
+    </div>
+    <div>
+        <input type="checkbox" name="choice" value="1" onclick="selectChoice('1')">1
+        <input type="checkbox" name="choice" value="2" onclick="selectChoice('2')">2
+        <input type="checkbox" name="choice" value="3" onclick="selectChoice('3')">3
+        <input type="checkbox" name="choice" value="4" onclick="selectChoice('4')">4
+        <input type="checkbox" name="choice" value="5" onclick="selectChoice('5')">5
+    </div>
+    <form action="{{ url_for('submit') }}" method="post">
+        <input type="hidden" name="choice" id="choice">
+        <input type="submit" value="Confirm">
+    </form>
+    <script>
+        function selectChoice(choice) {
+            var choices = document.getElementsByName('choice');
+            var selectedChoices = [];
+            if (choice === '1') {
+                for (var i = 0; i < choices.length; i++) {
+                    if (choices[i].value !== '非专业人士') {
+                        choices[i].checked = false;
+                    }
+                }
+            } else {
+                for (var i = 0; i < choices.length; i++) {
+                    if (choices[i].checked && choices[i].value === '非专业人士') {
+                        document.getElementsByName('choice')[0].checked = false;
+                    }
+                }
+            }
+            for (var i = 0; i < choices.length; i++) {
+                if (choices[i].checked) {
+                    selectedChoices.push(choices[i].value);
+                }
+            }
+            document.getElementById('choice').value = selectedChoices.join('/n');
+        }
+    </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>User Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>欢迎来到观众评估网页</h1>
+    <h2>请选择你的角色</h2>
+    <div>
+        <input type="radio" name="role" value="非专业人士">非专业人士：无乐器或配乐学习背景
+        <input type="radio" name="role" value="业余爱好者">业余爱好者：有部分乐器或音乐学习背景
+        <input type="radio" name="role" value="专业人士">专业人士：有系统性专业的乐器或配乐学习背景
+    </div>
+    <h2>请对下面视频的背景音乐打分（模型A生成结果）</h2>
+    <div>
+        {% for video in videos %}
+        <video width="320" height="240" controls controlsList="nodownload">
+            <source src="{{ url_for('video', filename=video) }}" type="video/mp4">
+        </video>
+        {% endfor %}
+    </div>
+    <h3>视频与背景音乐兼容性：节奏匹配度</h3>
+    <h4>说明：背景音乐的节奏与视频节奏的匹配程度,如画面中激烈的运动相应的音乐比
+        较紧张激昂,画面比较柔和时音乐也比较舒缓</h4>
+    <div>
+        <input type="radio" name="score1_1" value="0.5">0.5
+        <input type="radio" name="score1_1" value="1">1
+        <input type="radio" name="score1_1" value="1.5">1.5
+        <input type="radio" name="score1_1" value="2">2
+        <input type="radio" name="score1_1" value="2.5">2.5
+        <input type="radio" name="score1_1" value="3">3
+        <input type="radio" name="score1_1" value="3.5">3.5
+        <input type="radio" name="score1_1" value="4">4
+        <input type="radio" name="score1_1" value="4.5">4.5
+        <input type="radio" name="score1_1" value="5">5
+    </div>
+    <h3>视频与背景音乐兼容性：情感匹配度</h3>
+    <h4>说明：视频情感和背景音乐情感的匹配程度.如轻松愉
+        悦的视频它的背景音乐是否符合这一风格</h4>
+    <div>
+        <input type="radio" name="score1_2" value="0.5">0.5
+        <input type="radio" name="score1_2" value="1">1
+        <input type="radio" name="score1_2" value="1.5">1.5
+        <input type="radio" name="score1_2" value="2">2
+        <input type="radio" name="score1_2" value="2.5">2.5
+        <input type="radio" name="score1_2" value="3">3
+        <input type="radio" name="score1_2" value="3.5">3.5
+        <input type="radio" name="score1_2" value="4">4
+        <input type="radio" name="score1_2" value="4.5">4.5
+        <input type="radio" name="score1_2" value="5">5
+    </div>
+    <h3>视频与背景音乐兼容性：总体满意度</h3>
+    <h4>说明：相较于无声视频，您是否能通过此背景音乐，感受到创作者希望表达的感情</h4>
+    <div>
+        <input type="radio" name="score1_3" value="0.5">0.5
+        <input type="radio" name="score1_3" value="1">1
+        <input type="radio" name="score1_3" value="1.5">1.5
+        <input type="radio" name="score1_3" value="2">2
+        <input type="radio" name="score1_3" value="2.5">2.5
+        <input type="radio" name="score1_3" value="3">3
+        <input type="radio" name="score1_3" value="3.5">3.5
+        <input type="radio" name="score1_3" value="4">4
+        <input type="radio" name="score1_3" value="4.5">4.5
+        <input type="radio" name="score1_3" value="5">5
+    </div>
+    <h2>请对下面视频的背景音乐打分（模型B生成结果）</h2>
+    <div>
+        {% for video in cmt_videos %}
+        <video width="320" height="240" controls controlsList="nodownload">
+            <source src="{{ url_for('cmt_video', filename=video) }}" type="video/mp4">
+        </video>
+        {% endfor %}
+    </div>
+    <h3>视频与背景音乐兼容性：节奏匹配度</h3>
+    <h4>说明：背景音乐的节奏与视频节奏的匹配程度,如画面中激烈的运动相应的音乐比
+        较紧张激昂,画面比较柔和时音乐也比较舒缓</h4>
+    <div>
+        <input type="radio" name="score2_1" value="0.5">0.5
+        <input type="radio" name="score2_1" value="1">1
+        <input type="radio" name="score2_1" value="1.5">1.5
+        <input type="radio" name="score2_1" value="2">2
+        <input type="radio" name="score2_1" value="2.5">2.5
+        <input type="radio" name="score2_1" value="3">3
+        <input type="radio" name="score2_1" value="3.5">3.5
+        <input type="radio" name="score2_1" value="4">4
+        <input type="radio" name="score2_1" value="4.5">4.5
+        <input type="radio" name="score2_1" value="5">5
+    </div>
+    <h3>视频与背景音乐兼容性：情感匹配度</h3>
+    <h4>说明：视频情感和背景音乐情感的匹配程度.如轻松愉
+        悦的视频它的背景音乐是否符合这一风格</h4>
+    <div>
+        <input type="radio" name="score2_2" value="0.5">0.5
+        <input type="radio" name="score2_2" value="1">1
+        <input type="radio" name="score2_2" value="1.5">1.5
+        <input type="radio" name="score2_2" value="2">2
+        <input type="radio" name="score2_2" value="2.5">2.5
+        <input type="radio" name="score2_2" value="3">3
+        <input type="radio" name="score2_2" value="3.5">3.5
+        <input type="radio" name="score2_2" value="4">4
+        <input type="radio" name="score2_2" value="4.5">4.5
+        <input type="radio" name="score2_2" value="5">5
+    </div>
+    <h3>视频与背景音乐兼容性：总体满意度</h3>
+    <h4>说明：相较于无声视频，您是否能通过此背景音乐，感受到创作者希望表达的感情</h4>
+    <div>
+        <input type="radio" name="score2_3" value="0.5">0.5
+        <input type="radio" name="score2_3" value="1">1
+        <input type="radio" name="score2_3" value="1.5">1.5
+        <input type="radio" name="score2_3" value="2">2
+        <input type="radio" name="score2_3" value="2.5">2.5
+        <input type="radio" name="score2_3" value="3">3
+        <input type="radio" name="score2_3" value="3.5">3.5
+        <input type="radio" name="score2_3" value="4">4
+        <input type="radio" name="score2_3" value="4.5">4.5
+        <input type="radio" name="score2_3" value="5">5
+    </div>
+    <h4>版权所有：中国科学院大学计算机科学与技术学院信息动态学与工程应用实验室</h4>
+    <h4>联系我们：zhaobingshuang21@mails.ucas.ac.cn </h4>
+    <!-- <form action="{{ url_for('submit') }}" method="post">
+        <input type="hidden" name="role" id="role">
+        <input type="hidden" name="score1" id="score1">
+        <input type="hidden" name="score2" id="score2">
+        <input type="submit" value="Confirm">
+    </form> -->
+    <form action="/submit" method="post">
+        <input type="hidden" name="role" id="role">
+        <input type="hidden" name="score1_1" id="score1_1">
+        <input type="hidden" name="score1_2" id="score1_2">
+        <input type="hidden" name="score1_3" id="score1_3">
+        <input type="hidden" name="score2_1" id="score2_1">
+        <input type="hidden" name="score2_2" id="score2_2">
+        <input type="hidden" name="score2_3" id="score2_3">
+        <input type="submit" value="Confirm">
+    </form>
+    <script>
+        function updateHiddenInputs() {
+            var role = document.querySelector('input[name="role"]:checked');
+            var score1_1 = document.querySelector('input[name="score1_1"]:checked');
+            var score1_2 = document.querySelector('input[name="score1_2"]:checked');
+            var score1_3 = document.querySelector('input[name="score1_3"]:checked');
+            var score2_1 = document.querySelector('input[name="score2_1"]:checked');
+            var score2_2 = document.querySelector('input[name="score2_2"]:checked');
+            var score2_3 = document.querySelector('input[name="score2_3"]:checked');
+            document.getElementById('role').value = role ? role.value : '';
+            document.getElementById('score1_1').value = score1_1 ? score1_1.value : '';
+            document.getElementById('score1_2').value = score1_2 ? score1_2.value : '';
+            document.getElementById('score1_3').value = score1_3 ? score1_3.value : '';
+            document.getElementById('score2_1').value = score2_1 ? score2_1.value : '';
+            document.getElementById('score2_2').value = score2_2 ? score2_2.value : '';
+            document.getElementById('score2_3').value = score2_3 ? score2_3.value : '';
+        }
+
+        var inputs = document.querySelectorAll('input[type="radio"]');
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].addEventListener('change', updateHiddenInputs);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Flask Demo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Welcome to Flask Demo</h1>
+    <div>
+        <a href="{{ url_for('user') }}"><button>观众评估入口</button></a>
+        <a href="{{ url_for('creater') }}"><button>创作者评估入口</button></a>
+    </div>
+</body>
+</html>
